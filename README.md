@@ -11,26 +11,26 @@ func Query(db *sql.DB, sql string) (*sql.Rows, error)
 ## Example usage
 ```
 import (
-	"fmt"
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/greenlion/go-myquery/myquery"
+  "fmt"
+  "database/sql"
+  _ "github.com/go-sql-driver/mysql"
+  "github.com/greenlion/go-myquery/myquery"
 )
 
 func main() {
 
-	/* connection to the database */
-	conn, err := myquery.Connect("127.0.0.1", "root", "", "3306", "performance_schema")
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
+  /* connection to the database */
+  conn, err := myquery.Connect("127.0.0.1", "root", "", "3306", "performance_schema")
+  if err != nil {
+    panic(err)
+  }
+  defer conn.Close()
 
   /* run a query and get a pointer to the resultset */
-	stmt, err := myquery.Query(conn, "select * from threads")
-	if err != nil {
-		panic(err)
-	}
+  stmt, err := myquery.Query(conn, "select * from threads")
+  if err != nil {
+    panic(err)
+  }
   /* note that fetching an entire resultset will automatically close the 
      resultset.  You can't fetch the same resultset twice or rewind
      the resultset. deferred Close() is still a good idea in case the
@@ -39,17 +39,17 @@ func main() {
   defer stmt.Close()
 
   /* fetch each row from the resultset into a map[string]string and exit when no more rows */
-	for {
-		row, err := myquery.Fetch(stmt)
-		if err != nil {
-			panic(err)
-		}
-		if row == nil {
-			break
-		}
+  for {
+    row, err := myquery.Fetch(stmt)
+    if err != nil {
+      panic(err)
+    }
+    if row == nil {
+      break
+    }
     /* print the row */
-		fmt.Println(row)
-	}
+    fmt.Println(row)
+  }
 
 }
 ```
